@@ -29,9 +29,11 @@ const btnNew = document.getElementsByClassName("btn-new")[0];
 
 // SPEL-1: Startar ett nytt spel
 
-btnNew.addEventListener("click", init);
+btnNew.addEventListener("click", function () {
+  init("start");
+});
 
-function init() {
+function init(eventType) {
   const setTextContent = (element, valueString) => {
     element.textContent = valueString;
   };
@@ -47,8 +49,13 @@ function init() {
   player1Panel[0].classList.remove("winner");
   player0Panel[0].classList.remove("winner");
 
-  dice1.style.visibility = "hidden";
-  dice2.style.visibility = "hidden";
+  if (eventType === "start") {
+    dice1.style.visibility = "visible";
+    dice2.style.visibility = "visible";
+  } else {
+    dice1.style.visibility = "hidden";
+    dice2.style.visibility = "hidden";
+  }
 
   scores = [0, 0];
   activePlayer = 0;
