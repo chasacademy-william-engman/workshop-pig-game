@@ -68,7 +68,18 @@ function rollDice() {
   }
 
   const playerCurrentScore = getPlayerCurrentScore("player-current-score");
+  const playerScore = getPlayerCurrentScore("player-score");
   const diceSum = dice1Value + dice2Value;
+
+  //Two sixes
+  if (diceSum === 12) {
+    scores[activePlayer] = 0;
+    playerCurrentScore.textContent = "0";
+    playerScore.textContent = String(scores[activePlayer]);
+    switchPlayer();
+    return;
+  }
+
   if (dice1Value === 1 || dice2Value === 1) {
     playerCurrentScore.textContent = "0";
     switchPlayer();
