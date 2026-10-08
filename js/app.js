@@ -4,7 +4,7 @@
 
 // ---------- 1. Speldata ----------
 
-const WINNING_SCORE = 100; // Poäng som krävs för att vinna
+const WINNING_SCORE = 20; // Poäng som krävs för att vinna
 
 let scores = [0, 0]; // Totalpoäng: scores[0] = Spelare 1, scores[1] = Spelare 2
 let roundScore = 0; // Omgångspoäng för den aktiva spelaren
@@ -51,8 +51,9 @@ function init() {}
 btnRoll.addEventListener("click", rollDice);
 
 function rollDice() {
-  dice1.style.visibility = "visible";
-  dice2.style.visibility = "visible";
+  if (!isPlaying) {
+    return;
+  }
   const dice1Value = Math.floor(Math.random() * 6 + 1);
   const dice2Value = Math.floor(Math.random() * 6 + 1);
   dice1.src = `../img/dice-${dice1Value}.png`;
@@ -70,11 +71,10 @@ function rollDice() {
   const diceSum = dice1Value + dice2Value;
   if (dice1Value === 1 || dice2Value === 1) {
     playerCurrentScore.textContent = "0";
-    scores[activePlayer] += diceSum;
     switchPlayer();
   } else {
-    scores[activePlayer] += diceSum;
     roundScore += diceSum;
+    console.log("Round Score:", roundScore);
     playerCurrentScore.textContent = String(roundScore);
   }
   console.count(scores[activePlayer]);
@@ -84,17 +84,40 @@ function rollDice() {
 btnHold.addEventListener("click", holdScore);
 
 function holdScore() {
-  const playerScore = getPlayerCurrentScore("player-score");
+  if (!isPlaying) {
+    return;
+  }
+
   const playerCurrentScore = getPlayerCurrentScore("player-current-score");
+  if (playerCurrentScore.textContent === "0") {
+    return;
+  }
+
+  const playerScore = getPlayerCurrentScore("player-score");
+
   playerCurrentScore.textContent = "0";
-  playerScore.textContent = scores[activePlayer];
+  playerScore.textContent = scores[activePlayer] += roundScore;
+
+  // WINNER
+  if (scores[activePlayer] >= WINNING_SCORE) {
+    isPlaying = false;
+    const activePlayerPanel = document.getElementsByClassName(
+      `player-${activePlayer}-panel`,
+    )[0];
+    activePlayerPanel.classList.toggle("active");
+    activePlayerPanel.classList.toggle("winner");
+    playerScore.textContent = "Vinner!";
+    dice1.style.visibility = "hidden";
+    dice2.style.visibility = "hidden";
+    return;
+  }
   switchPlayer();
 }
 
 // SPEL-2: Byter till den andra spelaren
 function switchPlayer() {
-  activePlayer = 0 ? 1 : 0;
   roundScore = 0;
+  activePlayer = 0 ? 1 : 0;
   player0Panel[0].classList.toggle("active");
   player1Panel[0].classList.toggle("active");
 }
