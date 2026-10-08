@@ -4,7 +4,7 @@
 
 // ---------- 1. Speldata ----------
 
-const WINNING_SCORE = 20; // Poäng som krävs för att vinna
+let WINNING_SCORE = 100; // Poäng som krävs för att vinna
 
 let scores = [0, 0]; // Totalpoäng: scores[0] = Spelare 1, scores[1] = Spelare 2
 let roundScore = 0; // Omgångspoäng för den aktiva spelaren
@@ -15,6 +15,7 @@ let isPlaying = true; // Blir false när någon har vunnit
 const player0Score = document.getElementById("score-0");
 const player0Current = document.getElementById("current-0");
 const player1Current = document.getElementById("current-1");
+const vinstScore = document.getElementsByClassName("final-score");
 
 const dice1 = document.getElementById("dice-1");
 const dice2 = document.getElementById("dice-2");
