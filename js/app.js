@@ -15,6 +15,7 @@ let isPlaying = true; // Blir false när någon har vunnit
 const player0Score = document.getElementById("score-0");
 const player0Current = document.getElementById("current-0");
 const player1Current = document.getElementById("current-1");
+const player1Score = document.getElementById("score-1");
 const vinstScore = document.getElementsByClassName("final-score");
 
 const dice1 = document.getElementById("dice-1");
@@ -24,7 +25,8 @@ const player0Panel = document.getElementsByClassName("player-0-panel");
 const player1Panel = document.getElementsByClassName("player-1-panel");
 
 const btnNew = document.getElementsByClassName("btn-new")[0];
-
+const btnRoll = document.getElementsByClassName("btn-roll")[0];
+const btnHold = document.getElementsByClassName("btn-hold")[0];
 // ---------- 3. Funktioner ----------
 
 const getPlayerCurrentScore = (choice) => {
@@ -47,9 +49,11 @@ const getPlayerCurrentScore = (choice) => {
 
 // SPEL-1: Startar ett nytt spel
 
-btnNew.addEventListener("click", init);
+btnNew.addEventListener("click", function () {
+  init("start");
+});
 
-function init() {
+function init(startValue) {
   const setTextContent = (element, valueString) => {
     element.textContent = valueString;
   };
@@ -65,17 +69,26 @@ function init() {
   player1Panel[0].classList.remove("winner");
   player0Panel[0].classList.remove("winner");
 
-  dice1.style.visibility = "hidden";
-  dice2.style.visibility = "hidden";
+  if (startValue === "start") {
+    dice1.style.visibility = "visible";
+    dice2.style.visibility = "visible";
+  } else {
+    dice1.style.visibility = "hidden";
+    dice2.style.visibility = "hidden";
+  }
 
   scores = [0, 0];
   activePlayer = 0;
+  roundScore = 0;
+  isPlaying = true;
 }
 
 // SPEL-2: Körs när man klickar på "Slå tärning"
 btnRoll.addEventListener("click", rollDice);
 
 function rollDice() {
+  dice1.style.visibility = "visible";
+  dice2.style.visibility = "visible";
   if (!isPlaying) {
     return;
   }
