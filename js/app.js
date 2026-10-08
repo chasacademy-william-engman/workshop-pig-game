@@ -49,6 +49,9 @@ function init() {
 
   dice1.style.visibility = "hidden";
   dice2.style.visibility = "hidden";
+
+  scores = [0, 0];
+  activePlayer = 0;
 }
 
 // SPEL-2: Körs när man klickar på "Slå tärning"
